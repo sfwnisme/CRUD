@@ -1,7 +1,7 @@
 /* TODO
-[ ] get total
-[ ] create product
-[ ] save to local storage
+[x] get total
+[x] create product
+[x] save to local storage
 [] clear all inputs data
 [] read
 [] count
@@ -20,11 +20,14 @@ let total = document.getElementById("total");
 let count = document.getElementById("count");
 let category = document.getElementById("category");
 let submit = document.getElementById("submit");
+let inputs = document.querySelectorAll("input");
 
 // console.log(submit)
 
 /* 
-========| GET TOTAL 
+==========|
+=====| GET TOTAL 
+==========|
 */
 
 function getTotal() {
@@ -37,11 +40,12 @@ function getTotal() {
     total.innerText = "";
     total.parentElement.style.backgroundColor = "rgb(58, 184, 146)";
   }
-  // total.style.backgroundColor = "black"
 }
 
 /* 
-========| CREATE PRODUCT 
+==========|
+=====| CREATE PRODUCT
+==========|
 */
 
 /** =======| NOTE
@@ -56,7 +60,12 @@ function getTotal() {
 // create array is the easiest way to store any data
 let dataPro;
 
-// local Storage
+/* 
+==========|
+=====| SAVE TO LOCAL STORAGE
+==========|
+*/
+
 /** =======| NOTE 
  * Normally if we reload the window it will remove the previous
   data and store new but like we did not have any localStorage
@@ -97,12 +106,58 @@ submit.onclick = function () {
     with its form and store it in the localStorage
    */
   localStorage.setItem("product", JSON.stringify(dataPro));
+  clearData();
+  showData();
 };
 
-fetch("https://dev.to/api/articles?username=sfwnisme")
-  .then((e) => {
-    let data = e.json();
-    // console.log(data)
-    return data;
-  })
-  .then((e) => console.log(e));
+/* 
+==========|
+=====| CLEAR INPUTS VALUE
+==========|
+*/
+
+function clearData() {
+  inputs.forEach((inp) => (inp.value = ""));
+  total.innerText = "";
+}
+
+/* 
+==========|
+=====| READ
+==========|
+*/
+
+function showData() {
+  let table = "";
+  for (let i = 0; i < dataPro.length; i++) {
+    table += `
+    <tr>
+      <td>${i}</td>
+      <td>${dataPro[i].title}</td>
+      <td>${dataPro[i].price}</td>
+      <td>${dataPro[i].taxes}</td>
+      <td>${dataPro[i].ads}</td>
+      <td>${dataPro[i].category}</td>
+      <td>${dataPro[i].total}</td>
+      <td><button class="update">update</button></td>
+      <td><button onclick="deleteData(${i})" class="delete">delete</button></td>
+    </tr>
+    `;
+  }
+  document.getElementById("table").innerHTML = table;
+}
+
+showData();
+
+/* 
+==========|
+=====| DELETE
+==========|
+*/
+
+function deleteData(i) {
+  console.log(i);
+  dataPro.splice(i, 1);
+  localStorage.product = JSON.stringify(dataPro)
+  showData();
+}
