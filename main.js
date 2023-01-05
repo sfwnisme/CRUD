@@ -2,10 +2,10 @@
 [x] get total
 [x] create product
 [x] save to local storage
-[] clear all inputs data
-[] read
+[x] clear all inputs data
+[x] read
+[x] delete
 [] count
-[] delete
 [] update
 [] search
 [] clean data
@@ -158,6 +158,24 @@ function showData() {
   }
   // =====| this will display the previous text to HTML format
   document.getElementById("table").innerHTML = table;
+  /* 
+==========|
+=====| DELETE ALL
+==========|
+*/
+  let deleteAll = document.querySelector(".add-delete-button button");
+  console.log(deleteAll);
+  if (dataPro.length > 0) {
+    deleteAll.style.display = "inline";
+    deleteAll.setAttribute("onclick", "deleteAllData()");
+  } else {
+    deleteAll.style.display = "none";
+  }
+}
+function deleteAllData() {
+  localStorage.clear();
+  dataPro.splice(0);
+  showData();
 }
 
 /* 
@@ -174,13 +192,23 @@ function deleteData(x) {
   console.log(x);
   /** =====| NOTE
    * here you can test and delete the table lines
-   * but after reloading the window it will back
-   * thus you should adding it to the local storage
-   * no complicated steps, only you have to updating the local storage
-   * by the next steps
+    but after reloading the window it will back
+    thus you should adding it to the local storage,
+    no complicated steps, only just update the local storage
+    using the next steps
    */
   dataPro.splice(x, 1);
   localStorage.product = JSON.stringify(dataPro);
   // localStorage.setItem('product',JSNO.stringify(dataPro))
+
+  /** =====| NOTE
+   * it normally will delete the table you targeted
+    by the previous function and methods
+    but you have to reload to see the change
+    so, you should insert showData() function in the
+    deleteData(x) function to see the change onclick
+    instently
+   *
+   */
   showData();
 }
