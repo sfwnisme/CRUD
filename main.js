@@ -107,9 +107,21 @@ submit.onclick = function () {
    */
   localStorage.setItem("product", JSON.stringify(dataPro));
   clearData();
+
+  /** =====| NOTE
+   * clicking on submit will add the data to the table.and local storage
+   * but also we need another way to display the data and make it visioual
+    we will add the function to the global scope
+   * ADDING THE showData() FUNCTION TO GLOBAL SCOPE AND SUBMIT FUNCTION WILL MAKE IT WORK
+   */
   showData();
 };
 
+/** =====| NOTE
+ * we added the data function in global scope to make it work and also
+  added it in submit function to display the data after clicking the submit button
+ */
+showData();
 /* 
 ==========|
 =====| CLEAR INPUTS VALUE
@@ -144,10 +156,9 @@ function showData() {
     </tr>
     `;
   }
+  // =====| this will display the previous text to HTML format
   document.getElementById("table").innerHTML = table;
 }
-
-showData();
 
 /* 
 ==========|
@@ -155,9 +166,21 @@ showData();
 ==========|
 */
 
-function deleteData(i) {
-  console.log(i);
-  dataPro.splice(i, 1);
-  localStorage.product = JSON.stringify(dataPro)
+/** =====| NOTE
+ * this function is clickable for delete button
+ * on click delete button remove the whole line
+ */
+function deleteData(x) {
+  console.log(x);
+  /** =====| NOTE
+   * here you can test and delete the table lines
+   * but after reloading the window it will back
+   * thus you should adding it to the local storage
+   * no complicated steps, only you have to updating the local storage
+   * by the next steps
+   */
+  dataPro.splice(x, 1);
+  localStorage.product = JSON.stringify(dataPro);
+  // localStorage.setItem('product',JSNO.stringify(dataPro))
   showData();
 }
