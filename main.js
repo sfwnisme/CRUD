@@ -93,10 +93,22 @@ submit.onclick = function () {
     taxes: taxes.value,
     ads: ads.value,
     discount: discount.value,
+    count: count.value,
     total: total.innerText,
     category: category.value,
   };
-  dataPro.push(newPro);
+  // dataPro.push(newPro);
+
+  // count
+
+  if (newPro.count > 1) {
+    for (let i = 0; i < newPro.count; i++) {
+      dataPro.push(newPro);
+    }
+  } else {
+    dataPro.push(newPro);
+  }
+
   console.log(dataPro);
   /** =======| NOTE
    * we wanna to store the array data in the localStorage
@@ -158,12 +170,14 @@ function showData() {
   }
   // =====| this will display the previous text to HTML format
   document.getElementById("table").innerHTML = table;
+
   /* 
 ==========|
 =====| DELETE ALL
 ==========|
 */
   let deleteAll = document.querySelector(".add-delete-button button");
+  deleteAll.innerText = `Delete All [ ${dataPro.length} ]`;
   console.log(deleteAll);
   if (dataPro.length > 0) {
     deleteAll.style.display = "inline";
