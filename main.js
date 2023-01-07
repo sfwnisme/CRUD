@@ -22,6 +22,9 @@ let category = document.getElementById("category");
 let submit = document.getElementById("submit");
 let inputs = document.querySelectorAll("input");
 
+let mood = "create";
+let tmp;
+
 // console.log(submit)
 
 /* 
@@ -99,14 +102,25 @@ submit.onclick = function () {
   };
   // dataPro.push(newPro);
 
-  // count
-
-  if (newPro.count > 1) {
-    for (let i = 0; i < newPro.count; i++) {
+  /* 
+==========|
+=====| COUNT
+==========|
+*/
+  if (mood === "create") {
+    if (newPro.count > 1) {
+      for (let i = 0; i < newPro.count; i++) {
+        dataPro.push(newPro);
+      }
+    } else {
       dataPro.push(newPro);
     }
   } else {
-    dataPro.push(newPro);
+    // =====| here you are not creating new object
+    // you just updating the object using the array element [tmp]
+    dataPro[tmp] = newPro;
+    count.style.display = "block";
+    submit.innerText = "create";
   }
 
   console.log(dataPro);
@@ -163,7 +177,7 @@ function showData() {
       <td>${dataPro[i].ads}</td>
       <td>${dataPro[i].category}</td>
       <td>${dataPro[i].total}</td>
-      <td><button class="update">update</button></td>
+      <td><button onclick="update(${i})" class="update">update</button></td>
       <td><button onclick="deleteData(${i})" class="delete">delete</button></td>
     </tr>
     `;
@@ -226,3 +240,44 @@ function deleteData(x) {
    */
   showData();
 }
+
+/* 
+==========|
+=====| UPDATE
+==========|
+*/
+
+function update(x) {
+  console.log(x);
+  title.value = dataPro[x].title;
+  price.value = dataPro[x].price;
+  taxes.value = dataPro[x].taxes;
+  ads.value = dataPro[x].ads;
+  discount.value = dataPro[x].discount;
+  category.value = dataPro[x].category;
+  count.style.display = "none";
+  submit.innerText = "UPDATE";
+  tmp = x;
+  mood = "update";
+}
+
+/** =====| INFO 
+ * onclick event => create click event for update button
+ ** will pass a parameter of the object we clicked ${i}
+ * function => create function works on clicking on update button
+ ** this function will fill the inputs values with the data of the
+  table we had clicked on
+ ** create new variable called mood = 'create';
+ ** update mood = 'update' in update(x) function
+ *** if mood = "create" => work normally just create new objects
+ *** if mood = 'update' 
+ **** execut the update(x) function
+ **** create tmp empty variable on global scope and use it
+      in update(x) function and save the (x) parameter in it tmp = x;
+      for using the parameter globaly
+ **** target the dataPro element we want to update using tmp variable
+      dataPro[tmp] = newPro;
+ ***** by updating the array element dataPro[tmp]"object" with the opject newPro
+      you can now write new data and update the object or the array element
+      that we called tmp without creating new one just updaing
+  */
