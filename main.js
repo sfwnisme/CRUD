@@ -25,6 +25,8 @@ let inputs = document.querySelectorAll("input");
 let mood = "create";
 let tmp;
 
+let searchMood = "search-title";
+
 // console.log(submit)
 
 /* 
@@ -34,7 +36,6 @@ let tmp;
 */
 
 function getTotal() {
-  console.log("done");
   if (price.value != "") {
     let result = +price.value + +taxes.value + +ads.value - +discount.value;
     total.innerText = result;
@@ -91,14 +92,14 @@ if (localStorage.getItem("product") != null) {
 submit.onclick = function () {
   // creating object to order the data by its title or name of the product
   let newPro = {
-    title: title.value,
+    title: title.value.toLowerCase(),
     price: price.value,
     taxes: taxes.value,
     ads: ads.value,
     discount: discount.value,
     count: count.value,
     total: total.innerText,
-    category: category.value,
+    category: category.value.toLowerCase(),
   };
   // dataPro.push(newPro);
 
@@ -119,6 +120,7 @@ submit.onclick = function () {
     // =====| here you are not creating new object
     // you just updating the object using the array element [tmp]
     dataPro[tmp] = newPro;
+    console.log(`tmp number ${tmp}`);
     count.style.display = "block";
     submit.innerText = "create";
   }
@@ -141,6 +143,7 @@ submit.onclick = function () {
    * ADDING THE showData() FUNCTION TO GLOBAL SCOPE AND SUBMIT FUNCTION WILL MAKE IT WORK
    */
   showData();
+  getTotal();
 };
 
 /** =====| NOTE
@@ -259,6 +262,12 @@ function update(x) {
   submit.innerText = "UPDATE";
   tmp = x;
   mood = "update";
+  getTotal();
+
+  scroll({
+    top: 0,
+    behavior: "smooth",
+  });
 }
 
 /** =====| INFO 
@@ -281,3 +290,68 @@ function update(x) {
       you can now write new data and update the object or the array element
       that we called tmp without creating new one just updaing
   */
+
+/* 
+==========|
+=====| UPDATE
+==========|
+*/
+let search = document.querySelector(".search");
+function getSearchMood(id) {
+  if (id === "search-title") {
+    console.log(id);
+    searchMood = "search-title";
+  } else {
+    console.log(id);
+    searchMood = "search-category";
+  }
+  search.placeholder = document.querySelector(`.${id}`).innerText;
+  search.focus();
+
+  // ===| if click on any button of the search clean the search.value and
+  // execute the showData() function
+  search.value = "";
+  showData();
+}
+console.log(search);
+// search.addEventListener("keyup", searchValue(this.value));
+// search.onkeyup = searchValue(search.value);
+function searchValue(value) {
+  let table = "";
+  for (let i = 0; i < dataPro.length; i++) {
+    if (searchMood === "search-title") {
+      if (dataPro[i].title.startsWith(value)) {
+        table += `
+        <tr>
+          <td>${i}</td>
+          <td>${dataPro[i].title}</td>
+          <td>${dataPro[i].price}</td>
+          <td>${dataPro[i].taxes}</td>
+          <td>${dataPro[i].ads}</td>
+          <td>${dataPro[i].category}</td>
+          <td>${dataPro[i].total}</td>
+          <td><button onclick="update(${i})" class="update">update</button></td>
+          <td><button onclick="deleteData(${i})" class="delete">delete</button></td>
+        </tr>
+        `;
+      }
+    } else {
+      if (dataPro[i].category.startsWith(value)) {
+        table += `
+        <tr>
+          <td>${i}</td>
+          <td>${dataPro[i].title}</td>
+          <td>${dataPro[i].price}</td>
+          <td>${dataPro[i].taxes}</td>
+          <td>${dataPro[i].ads}</td>
+          <td>${dataPro[i].category}</td>
+          <td>${dataPro[i].total}</td>
+          <td><button onclick="update(${i})" class="update">update</button></td>
+          <td><button onclick="deleteData(${i})" class="delete">delete</button></td>
+        </tr>
+        `;
+      }
+    }
+  }
+  document.getElementById("table").innerHTML = table;
+}

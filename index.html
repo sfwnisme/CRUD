@@ -84,12 +84,17 @@
       <button class="creat" id="submit">create</button>
     </div>
     <div class="continer-search">
-      <input type="text" class="search" placeholder="search" />
+      <input
+        type="text"
+        class="search"
+        placeholder="search"
+        onkeyup="searchValue(this.value.toLowerCase())"
+      />
       <div class="button-search">
-        <button onclick="getsearchmood(this.className)" class="search-title">
+        <button onclick="getSearchMood(this.className)" class="search-title">
           Search by title
         </button>
-        <button onclick="getsearchmood(this.className)" class="search-calgary">
+        <button onclick="getSearchMood(this.className)" class="search-category">
           Search by calgary
         </button>
       </div>
