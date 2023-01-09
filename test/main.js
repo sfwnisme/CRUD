@@ -22,6 +22,8 @@ let category = document.getElementById("category");
 let submit = document.getElementById("submit");
 let inputs = document.querySelectorAll("input");
 
+let tmp;
+
 // ==========| EMPTY INPUTS
 function emptyInpus() {
   inputs.forEach((e) => (e.value = ""));
@@ -69,7 +71,6 @@ submit.addEventListener("click", () => {
     category: category.value,
   };
   dataArr.push(dataObj);
-  console.log(dataArr);
   localStorage.setItem("products", JSON.stringify(dataArr));
 
   dataShow();
@@ -82,13 +83,12 @@ submit.addEventListener("click", () => {
 
 function dataShow() {
   let table = document.querySelector("#table");
-  console.log(table);
   let dataTable = "";
 
   for (let i = 0; i < dataArr.length; i++) {
     dataTable += `
     <tr>
-      <td>${i}</td>
+      <td id="id">${i}</td>
       <td>${dataArr[i].title}</td>
       <td>${dataArr[i].price}</td>
       <td>${dataArr[i].taxes}</td>
@@ -101,6 +101,27 @@ function dataShow() {
     `;
   }
   table.innerHTML = dataTable;
+
+  //===| BRANCH FUNCTIONS
+  dataDelete();
 }
 // ===| if we didn't excuted it in gloabl scope it will not be able to showen
 dataShow();
+
+function dataDelete(x) {
+  let del = document.querySelectorAll(".delete");
+  console.log(del);
+  del.forEach((de) => {
+    de.addEventListener("click", (d) => {
+      console.log(
+        Number(
+          d.target.parentElement.parentElement.querySelector("#id").innerText
+        )
+      );
+      +console.log(tmp);
+      dataArr.splice(x, 1);
+      dataShow();
+    });
+  });
+}
+// dataDelete();
