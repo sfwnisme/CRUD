@@ -152,13 +152,13 @@ button {
   margin-right: 0;
 }
 
-.delet-all {
+.delete-all {
   background-color: rgb(216, 63, 63);
   box-shadow: 0px 0px 7px 0px rgb(216, 63, 63);
   margin-bottom: 10px;
 }
 
-.delet-all:active {
+.delete-all:active {
   background-color: rgb(175, 37, 37);
 }
 
@@ -198,10 +198,10 @@ td {
   background-color: rgba(165, 36, 36, 0.336);
 }
 
-.delet-all.active {
+.delete-all.active {
   display: block;
 }
 
-.delet-all.display {
+.delete-all.display {
   display: none;
 }

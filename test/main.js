@@ -22,6 +22,7 @@ let category = document.getElementById("category");
 let submit = document.getElementById("submit");
 let inputs = document.querySelectorAll("input");
 
+let deleteAllBtn = document.querySelector(".delete-all");
 let tmp;
 
 // ==========| EMPTY INPUTS
@@ -103,10 +104,27 @@ function dataShow() {
   }
   table.innerHTML = dataTable;
 
-  dataDelete();
   //===| BRANCH FUNCTIONS
+  dataDelete();
+  if (dataArr.length > 0) {
+    deleteAllBtn.style.display = "inline";
+  } else {
+    deleteAllBtn.style.display = "none";
+  }
 }
 // ===| if we didn't excuted it in gloabl scope it will not be able to showen
+
+// ===|  DELETE ALL
+
+// deleteAllBtn.addEventListener("click", dataDeleteAll);
+deleteAllBtn.onclick = dataDeleteAll;
+
+function dataDeleteAll() {
+  dataArr.splice(0);
+  localStorage.clear();
+  // localStorage.products = JSON.stringify(dataArr);
+  dataShow();
+}
 dataShow();
 
 function dataDelete() {
@@ -126,4 +144,3 @@ function dataDelete() {
     });
   });
 }
-// dataDelete();
