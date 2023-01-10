@@ -59,6 +59,7 @@ if (localStorage.getItem("products") != null) {
 }
 
 // ==========| MAIN CLICK
+
 submit.addEventListener("click", () => {
   dataObj = {
     title: title.value.toLowerCase(),
@@ -102,25 +103,26 @@ function dataShow() {
   }
   table.innerHTML = dataTable;
 
-  //===| BRANCH FUNCTIONS
   dataDelete();
+  //===| BRANCH FUNCTIONS
 }
 // ===| if we didn't excuted it in gloabl scope it will not be able to showen
 dataShow();
 
-function dataDelete(x) {
+function dataDelete() {
   let del = document.querySelectorAll(".delete");
-  console.log(del);
   del.forEach((de) => {
     de.addEventListener("click", (d) => {
-      console.log(
-        Number(
-          d.target.parentElement.parentElement.querySelector("#id").innerText
-        )
+      let tableIndex = Number(
+        d.target.parentElement.parentElement.querySelector("#id").innerText
       );
-      +console.log(tmp);
-      dataArr.splice(x, 1);
+
+      dataArr.splice(tableIndex, 1);
       dataShow();
+      console.log(tableIndex);
+      console.log(d);
+
+      localStorage.products = JSON.stringify(dataArr);
     });
   });
 }
