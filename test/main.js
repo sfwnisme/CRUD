@@ -4,7 +4,7 @@
 [x] save to local storage
 [x] clear all inputs data
 [x] read
-[] delete
+[x] delete
 [] count
 [] update
 [] search
@@ -72,7 +72,17 @@ submit.addEventListener("click", () => {
     count: count.value,
     category: category.value,
   };
-  dataArr.push(dataObj);
+
+  // ===| NOTE
+  // you can here use count.value OR dataObj.count
+  // it just requests the value of the count input
+  if (count.value > 1) {
+    for (let i = 0; i < count.value; i++) {
+      dataArr.push(dataObj);
+    }
+  } else {
+    dataArr.push(dataObj);
+  }
   localStorage.setItem("products", JSON.stringify(dataArr));
 
   dataShow();
@@ -83,10 +93,9 @@ submit.addEventListener("click", () => {
 
 // ==========| READ
 
+let table = document.querySelector("#table");
 function dataShow() {
-  let table = document.querySelector("#table");
   let dataTable = "";
-
   for (let i = 0; i < dataArr.length; i++) {
     dataTable += `
     <tr>
@@ -116,15 +125,29 @@ function dataShow() {
 
 // ===|  DELETE ALL
 
-// deleteAllBtn.addEventListener("click", dataDeleteAll);
-deleteAllBtn.onclick = dataDeleteAll;
-
+deleteAllBtn.addEventListener("click", dataDeleteAll);
 function dataDeleteAll() {
   dataArr.splice(0);
   localStorage.clear();
-  // localStorage.products = JSON.stringify(dataArr);
   dataShow();
 }
+
+// ===| you can also use this function for delete all|===
+// deleteAllBtn.addEventListener("click", dataDeleteAll);
+// function dataDeleteAll() {
+//   dataArr = [];
+//   localStorage.products = JSON.stringify(dataArr);
+//   dataShow();
+// }
+
+// ===| you can also use this function for delete all|===
+// deleteAllBtn.addEventListener("click", dataDeleteAll);
+// function dataDeleteAll() {
+//   dataArr.length = 0;
+//   localStorage.products = JSON.stringify(dataArr);
+//   dataShow();
+// }
+
 dataShow();
 
 function dataDelete() {
@@ -134,13 +157,11 @@ function dataDelete() {
       let tableIndex = Number(
         d.target.parentElement.parentElement.querySelector("#id").innerText
       );
-
       dataArr.splice(tableIndex, 1);
       dataShow();
-      console.log(tableIndex);
-      console.log(d);
-
       localStorage.products = JSON.stringify(dataArr);
     });
   });
 }
+
+// ==========| READ
