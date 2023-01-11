@@ -5,7 +5,7 @@
 [x] clear all inputs data
 [x] read
 [x] delete
-[] count
+[x] count
 [] update
 [] search
 [] clean data
@@ -23,7 +23,9 @@ let submit = document.getElementById("submit");
 let inputs = document.querySelectorAll("input");
 
 let deleteAllBtn = document.querySelector(".delete-all");
+let mood = "create";
 let tmp;
+console.log(`this is ${tmp}`);
 
 // ==========| EMPTY INPUTS
 function emptyInpus() {
@@ -106,7 +108,7 @@ function dataShow() {
       <td>${dataArr[i].ads}</td>
       <td>${dataArr[i].category}</td>
       <td>${dataArr[i].total}</td>
-      <td><button class="update">update</button></td>
+      <td><button class="update" data-index="${i}">update</button></td>
       <td><button class="delete">delete</button></td>
     </tr>
     `;
@@ -120,6 +122,7 @@ function dataShow() {
   } else {
     deleteAllBtn.style.display = "none";
   }
+  update();
 }
 // ===| if we didn't excuted it in gloabl scope it will not be able to showen
 
@@ -164,4 +167,25 @@ function dataDelete() {
   });
 }
 
-// ==========| READ
+// ==========| UPDATE
+
+function update() {
+  let updateBtn = document.querySelectorAll(".update");
+
+ let index = updateBtn.forEach((upBtn) => {
+    upBtn.addEventListener("click", (up) => {
+      //
+      //
+      console.log(`${up.target.className}`);
+      let updateIndex =
+        +up.target.parentElement.parentElement.querySelector("#id").innerText;
+      console.log(`${updateIndex}`);
+
+      tmp = updateIndex;
+      //
+      //
+    });
+  });
+  // tmp = updateIndex;
+  console.log(index);
+}
