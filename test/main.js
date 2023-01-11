@@ -25,7 +25,12 @@ let inputs = document.querySelectorAll("input");
 let deleteAllBtn = document.querySelector(".delete-all");
 let mood = "create";
 let tmp;
-console.log(`this is ${tmp}`);
+
+let search = document.querySelector(".button-search");
+let searchTitle = document.querySelector(".search-title");
+let searchCategory = document.querySelector(".search-category");
+
+console.log(searchCategory);
 
 // ==========| EMPTY INPUTS
 function emptyInpus() {
@@ -78,12 +83,19 @@ submit.addEventListener("click", () => {
   // ===| NOTE
   // you can here use count.value OR dataObj.count
   // it just requests the value of the count input
-  if (count.value > 1) {
-    for (let i = 0; i < count.value; i++) {
+
+  if (mood === "create") {
+    if (count.value > 1) {
+      for (let i = 0; i < count.value; i++) {
+        dataArr.push(dataObj);
+      }
+    } else {
       dataArr.push(dataObj);
     }
   } else {
-    dataArr.push(dataObj);
+    dataArr[tmp] = dataObj;
+    count.style.display = "inline";
+    submit.innerText = "create";
   }
   localStorage.setItem("products", JSON.stringify(dataArr));
 
@@ -108,7 +120,7 @@ function dataShow() {
       <td>${dataArr[i].ads}</td>
       <td>${dataArr[i].category}</td>
       <td>${dataArr[i].total}</td>
-      <td><button class="update" data-index="${i}">update</button></td>
+      <td><button class="update" onclick="update(${i})">update</button></td>
       <td><button class="delete">delete</button></td>
     </tr>
     `;
@@ -122,7 +134,6 @@ function dataShow() {
   } else {
     deleteAllBtn.style.display = "none";
   }
-  update();
 }
 // ===| if we didn't excuted it in gloabl scope it will not be able to showen
 
@@ -169,23 +180,40 @@ function dataDelete() {
 
 // ==========| UPDATE
 
-function update() {
-  let updateBtn = document.querySelectorAll(".update");
+function update(x) {
+  title.value = dataArr[x].title;
+  price.value = dataArr[x].price;
+  taxes.value = dataArr[x].taxes;
+  ads.value = dataArr[x].ads;
+  discount.value = dataArr[x].discount;
+  total.innerText = dataArr[x].total;
+  category.value = dataArr[x].category;
+  // console.log(dataArr[x].title)
+  console.log(x);
+  mood = "update";
+  tmp = x;
 
- let index = updateBtn.forEach((upBtn) => {
-    upBtn.addEventListener("click", (up) => {
-      //
-      //
-      console.log(`${up.target.className}`);
-      let updateIndex =
-        +up.target.parentElement.parentElement.querySelector("#id").innerText;
-      console.log(`${updateIndex}`);
-
-      tmp = updateIndex;
-      //
-      //
-    });
+  count.style.display = "none";
+  submit.innerText = mood;
+  scroll({
+    top: 0,
+    behavior: "smooth",
   });
-  // tmp = updateIndex;
-  console.log(index);
 }
+
+// ==========| SEARCH
+
+let searchMood = "search-title";
+
+function searchFunction(id) {
+  if (id === "search-title") {
+    searchMood = "Search by title";
+    search.placeholder = "id";
+  } else {
+    searchMood = "Search by category";
+    search.placeholder = "id";
+  }
+  search.placeholder = "";
+  dataShow();
+}
+// searchFunction();

@@ -263,12 +263,12 @@ function update(x) {
   tmp = x;
   mood = "update";
   getTotal();
-
   scroll({
     top: 0,
     behavior: "smooth",
   });
 }
+console.log(tmp)
 
 /** =====| INFO 
  * onclick event => create click event for update button
@@ -293,7 +293,7 @@ function update(x) {
 
 /* 
 ==========|
-=====| UPDATE
+=====| SEARCH
 ==========|
 */
 let search = document.querySelector(".search");
